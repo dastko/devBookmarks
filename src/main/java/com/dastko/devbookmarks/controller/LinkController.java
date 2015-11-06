@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -35,23 +36,23 @@ public class LinkController
     /**
      * Simply selects the home view to render by returning its name.
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Locale locale, Model model) {
-        logger.info("Welcome home! The client locale is {}.", locale);
-
-        Date date = new Date();
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-        String formattedDate = dateFormat.format(date);
-
-        model.addAttribute("serverTime", formattedDate );
-
-        return "home";
-    }
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+//    public String home(Locale locale, Model model) {
+//        logger.info("Welcome home! The client locale is {}.", locale);
+//
+//        Date date = new Date();
+//        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+//
+//        String formattedDate = dateFormat.format(date);
+//
+//        model.addAttribute("serverTime", formattedDate );
+//
+//        return "home";
+//    }
 
 
     @RequestMapping("createLink")
-    public ModelAndView createEmployee(@ModelAttribute Link link)
+    public ModelAndView createLink(@ModelAttribute Link link)
     {
         logger.info("Creating Link. Data: " + link);
         return new ModelAndView("linkForm");
@@ -62,11 +63,21 @@ public class LinkController
     {
         logger.info("Saving Link. Data : " + link.getName());
         if (link.getId() == 0)
-        { // if employee id is 0 then creating the employee other updating the employee
+        { // if link id is 0 then creating the link other updating the link
             linkService.createLink(link);
         } else
         {
         }
         return new ModelAndView("redirect:");
     }
+
+    @RequestMapping(value = {"getAllLinks", "/"})
+    public ModelAndView getAllLinks()
+    {
+        logger.info("Getting the all Links.");
+        List<Link> linkList = linkService.getAllLinks();
+        return new ModelAndView("linkList", "linkList", linkList);
+    }
+
+
 }

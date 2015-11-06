@@ -43,7 +43,8 @@ public class LinkDAOImpl implements LinkDAO
     @Override
     public List<Link> getAllLinks()
     {
-        return null;
+
+        return hibernateUtil.fetchAll(Link.class);
     }
 
     @Override

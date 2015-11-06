@@ -48,7 +48,7 @@ public class HibernateUtil
     @SuppressWarnings("unchecked")
     public <T> List<T> fetchAll(Class<T> entityClass) {
         //return sessionFactory.getCurrentSession().createQuery(" FROM "+entityClass.getName()).list();
-        return null;
+        return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t").getResultList();
     }
 
     @SuppressWarnings("rawtypes")
