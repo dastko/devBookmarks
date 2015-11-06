@@ -26,13 +26,13 @@
         </div>
         <div class="panel-body">
             <c:if test="${empty linkList}">
-                There are no Employees
+                There are no Links
             </c:if>
             <c:if test="${not empty linkList}">
             
             	<form action="searchLink">
             		<div class="row">
-					  <div class="col-md-4">Search Employees: <input type='text' name='searchName' id='searchName'/> </div>
+					  <div class="col-md-4">Search Links: <input type='text' name='searchName' id='searchName'/> </div>
 					  <div class="col-md-4"><input class="btn btn-success" type='submit' value='Search'/></div>
 					</div>
             	</form>         	
@@ -42,6 +42,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Date</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -51,7 +52,8 @@
                         <tr>
                         	<th><c:out value="${emp.id}"/></th>
                         	<th><c:out value="${emp.name}"/></th>
-                        	<th><a href="editLink?id=<c:out value='${emp.id}'/>">Edit</a></th>
+                            <th><c:out value="${emp.date}"/></th>
+                            <th><a href="editLink?id=<c:out value='${emp.id}'/>">Edit</a></th>
                         	<th><a href="deleteLink?id=<c:out value='${emp.id}'/>">Delete</a></th>
                         </tr>
                     </c:forEach>

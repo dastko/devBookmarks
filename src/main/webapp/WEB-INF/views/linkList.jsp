@@ -42,6 +42,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Date</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -51,7 +52,8 @@
                         <tr>
                         	<th><c:out value="${emp.id}"/></th>
                         	<th><c:out value="${emp.name}"/></th>
-                        	<th><a href="editLink?id=<c:out value='${emp.id}'/>">Edit</a></th>
+                            <th><c:out value="${emp.date}"/></th>
+                            <th><a href="editLink?id=<c:out value='${emp.id}'/>">Edit</a></th>
                         	<th><a href="deleteLink?id=<c:out value='${emp.id}'/>">Delete</a></th>
                         </tr>
                     </c:forEach>

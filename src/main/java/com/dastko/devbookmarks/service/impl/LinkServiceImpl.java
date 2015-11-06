@@ -38,9 +38,9 @@ public class LinkServiceImpl implements LinkService
     }
 
     @Override
-    public void deleteLink(long id)
+    public void deleteLink(Link link)
     {
-
+        linkDAO.deleteLink(link);
     }
 
     @Override
@@ -60,4 +60,11 @@ public class LinkServiceImpl implements LinkService
     {
         return null;
     }
+
+    @Override
+    public boolean exists(String name)
+    {
+        return false;
+    }
+
 }

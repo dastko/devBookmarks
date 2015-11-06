@@ -13,11 +13,13 @@ public interface LinkService
 
     public Link updateLink(Link link);
 
-    public void deleteLink(long id);
+    public void deleteLink(Link link);
 
     public List<Link> getAllLinks();
 
     public Link getLink(long id);
 
     public List<Link> getAllLinks(String linkName);
+
+    boolean exists(String name);
 }

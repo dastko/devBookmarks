@@ -2,17 +2,21 @@ package com.dastko.devbookmarks.controller;
 
 import com.dastko.devbookmarks.entity.Link;
 import com.dastko.devbookmarks.service.LinkService;
+import com.dastko.devbookmarks.utilites.JsonResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.awt.*;
 import java.text.DateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -20,7 +24,7 @@ import java.util.Locale;
 /**
  * Created by dastko on 11/5/15.
  */
-@Controller
+@RestController
 public class LinkController
 {
 
@@ -30,26 +34,9 @@ public class LinkController
     {
 
     }
+
     @Autowired
     private LinkService linkService;
-
-    /**
-     * Simply selects the home view to render by returning its name.
-     */
-//    @RequestMapping(value = "/", method = RequestMethod.GET)
-//    public String home(Locale locale, Model model) {
-//        logger.info("Welcome home! The client locale is {}.", locale);
-//
-//        Date date = new Date();
-//        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-//
-//        String formattedDate = dateFormat.format(date);
-//
-//        model.addAttribute("serverTime", formattedDate );
-//
-//        return "home";
-//    }
-
 
     @RequestMapping("createLink")
     public ModelAndView createLink(@ModelAttribute Link link)
@@ -79,5 +66,31 @@ public class LinkController
         return new ModelAndView("linkList", "linkList", linkList);
     }
 
+    @RequestMapping("/links")
+    public List<Link> getAllLinksApi()
+    {
+        return Collections.unmodifiableList(linkService.getAllLinks());
+    }
 
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public ResponseEntity<Link> saveLink2(@RequestBody Link link)
+    {
+        HttpStatus status = HttpStatus.OK;
+        if (!linkService.exists(link.getName()))
+        {
+            status = HttpStatus.CREATED;
+        }
+        linkService.createLink(link);
+        return new ResponseEntity<Link>(link, status);
+    }
+
+    @RequestMapping("deleteLink")
+    public ModelAndView deleteLink(@RequestParam long id)
+    {
+        logger.info("Deleting the Link. Id : " + id);
+        Link link = new Link();
+        link.setId(id);
+        linkService.deleteLink(link);
+        return new ModelAndView("redirect:");
+    }
 }

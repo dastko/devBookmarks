@@ -35,9 +35,9 @@ public class LinkDAOImpl implements LinkDAO
     }
 
     @Override
-    public void deleteLink(long id)
+    public void deleteLink(Link link)
     {
-
+        hibernateUtil.delete(link);
     }
 
     @Override

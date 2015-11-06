@@ -32,7 +32,6 @@
     <!-- Getting Database properties -->
     <context:property-placeholder location="classpath:application.properties" />
 
-
     <beans:bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
         <beans:property name="driverClass" value="${database.driverClass}" />
@@ -41,6 +40,7 @@
         <beans:property name="password" value="${database.password}" />
 
         <beans:property name="acquireIncrement" value="${connection.acquireIncrement}" />
+        <beans:property name="initialPoolSize" value="${connection.initialPoolSize}" />
         <beans:property name="minPoolSize" value="${connection.minPoolSize}" />
         <beans:property name="maxPoolSize" value="${connection.maxPoolSize}" />
         <beans:property name="maxIdleTime" value="${connection.maxIdleTime}" />

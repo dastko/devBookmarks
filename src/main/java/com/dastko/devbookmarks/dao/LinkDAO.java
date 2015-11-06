@@ -13,7 +13,7 @@ public interface LinkDAO
 
     public Link updateLink(Link link);
 
-    public void deleteLink(long id);
+    public void deleteLink(Link link);
 
     public List<Link> getAllLinks();
 
