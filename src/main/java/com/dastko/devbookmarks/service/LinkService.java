@@ -11,6 +11,8 @@ public interface LinkService
 {
     public void createLink(Link link);
 
+    public void createLinkParametars(String link);
+
     public Link updateLink(Link link);
 
     public void deleteLink(Link link);

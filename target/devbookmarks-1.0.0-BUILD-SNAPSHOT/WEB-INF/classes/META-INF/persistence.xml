@@ -3,11 +3,34 @@
     <persistence-unit name="entityManager" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.dastko.devbookmarks.entity.Link</class>
+        <class>com.dastko.devbookmarks.entity.User</class>
+        <class>com.dastko.devbookmarks.entity.Tag</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <validation-mode>NONE</validation-mode>
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true" />
         </properties>
     </persistence-unit>
 </persistence>
+
+        <!--<?xml version="1.0" encoding="UTF-8"?>-->
+        <!--<!DOCTYPE hibernate-mapping PUBLIC-->
+                <!--"-//Hibernate/Hibernate Mapping DTD 3.0//EN"-->
+                <!--"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">-->
+<!--<hibernate-mapping package="com.devlogic.model">-->
+<!--<class name="User" table="user">-->
+    <!--<id name="id" column="id">-->
+        <!--<generator class="native"/>-->
+    <!--</id>-->
+    <!--<property name="fingerprintHash" column="fingerprintHash" />-->
+    <!--<property name="name" column="name" />-->
+    <!--<property name="email" column="email" />-->
+    <!--<property name="idFacebook" column="idFacebook" />-->
+    <!--<property name="currentHeight" column="currentHeight" />-->
+    <!--<property name="gender" column="gender" />-->
+    <!--<property name="session" column="session" />-->
+<!--</class>-->
+<!--</hibernate-mapping>-->

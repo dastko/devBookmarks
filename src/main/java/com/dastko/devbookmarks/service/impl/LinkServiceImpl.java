@@ -2,12 +2,15 @@ package com.dastko.devbookmarks.service.impl;
 
 import com.dastko.devbookmarks.dao.LinkDAO;
 import com.dastko.devbookmarks.entity.Link;
+import com.dastko.devbookmarks.entity.User;
 import com.dastko.devbookmarks.service.LinkService;
+import com.dastko.devbookmarks.utilites.JsonResponse;
+import com.dastko.devbookmarks.utilites.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+import java.util.jar.JarEntry;
 
 /**
  * Created by dastko on 11/5/15.
@@ -28,7 +31,30 @@ public class LinkServiceImpl implements LinkService
     @Override
     public void createLink(Link link)
     {
-       linkDAO.createLink(link);
+        linkDAO.createLink(link);
+    }
+
+
+    /**
+     * save the transient instance before flushing
+     * @param link
+     */
+    @Override
+    public void createLinkParametars(String link)
+    {
+
+        ValidationUtils.assertSizeLength(link, 6, 60, "Minimum 6, Maximum 60 characters");
+        ValidationUtils.assertNotBlank(link, "Not null");
+        //ValidationUtils.isValidURL(link, "Invalid URL");
+        ValidationUtils.urlValidation(link, "Invalid URL 2");
+
+        Link validationLink = new Link();
+        validationLink.setName(link);
+        User user = new User();
+        user.setId(1);
+        validationLink.setUser(user);
+        //we need to save User object before
+        linkDAO.createLink(validationLink);
     }
 
     @Override
@@ -66,5 +92,6 @@ public class LinkServiceImpl implements LinkService
     {
         return false;
     }
+
 
 }
