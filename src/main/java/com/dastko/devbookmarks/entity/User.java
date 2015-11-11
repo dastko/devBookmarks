@@ -1,9 +1,12 @@
 package com.dastko.devbookmarks.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +22,8 @@ public class User implements Serializable
     private String firstName;
     private String lastName;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Link> links;
+    @JsonIgnore
+    private List<Link> links = new ArrayList<>();
 
     public User()
     {
@@ -75,4 +79,11 @@ public class User implements Serializable
     {
         this.links = links;
     }
+
+    public void addLink(Link link)
+    {
+        link.setUser(this);
+        getLinks().add(link);
+    }
+
 }

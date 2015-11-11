@@ -1,15 +1,14 @@
 package com.dastko.devbookmarks.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -28,22 +27,25 @@ public class Link implements Serializable
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column
     private Date date = new Date();
+    @Column
+    private String details;
     @ManyToOne
     private User user;
-    @OneToMany(cascade = javax.persistence.CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Tag> tags;
+    private Set<Tag> tags = new HashSet<>();
 
     public Link()
     {
 
     }
 
-    public Link(User user, Date date, String name)
+    public Link(User user, Date date, String name, String details)
     {
         this.user = user;
         this.date = date;
         this.name = name;
+        this.details = details;
     }
 
     public static long getSerialVersionUID()
@@ -89,5 +91,31 @@ public class Link implements Serializable
     public void setUser(User user)
     {
         this.user = user;
+    }
+
+    public String getDetails()
+    {
+        return details;
+    }
+
+    public void setDetails(String details)
+    {
+        this.details = details;
+    }
+
+    public Set<Tag> getTags()
+    {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags)
+    {
+        this.tags = tags;
+    }
+
+    public void tagIt(Tag tag)
+    {
+        tag.setLink(this);
+        getTags().add(tag);
     }
 }

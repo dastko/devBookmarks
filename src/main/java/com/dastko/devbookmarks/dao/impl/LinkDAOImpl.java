@@ -2,6 +2,7 @@ package com.dastko.devbookmarks.dao.impl;
 
 import com.dastko.devbookmarks.dao.LinkDAO;
 import com.dastko.devbookmarks.entity.Link;
+import com.dastko.devbookmarks.utilites.Crawler;
 import com.dastko.devbookmarks.utilites.HibernateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,9 +42,14 @@ public class LinkDAOImpl implements LinkDAO
     }
 
     @Override
+    public void deleteById(long id)
+    {
+        hibernateUtil.delete(id, Link.class);
+    }
+
+    @Override
     public List<Link> getAllLinks()
     {
-
         return hibernateUtil.fetchAll(Link.class);
     }
 
@@ -57,5 +63,11 @@ public class LinkDAOImpl implements LinkDAO
     public List<Link> getAllLinks(String linkName)
     {
         return null;
+    }
+
+    @Override
+    public List<Link> fetchByInputString(String input)
+    {
+        return hibernateUtil.fetchLike(Link.class, input);
     }
 }

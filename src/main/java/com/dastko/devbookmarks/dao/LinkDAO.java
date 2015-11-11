@@ -15,10 +15,14 @@ public interface LinkDAO
 
     public void deleteLink(Link link);
 
+    public void deleteById(long id);
+
     public List<Link> getAllLinks();
 
     public Link getLink(long id);
 
     public List<Link> getAllLinks(String linkName);
+
+    public List<Link> fetchByInputString(String input);
 
 }

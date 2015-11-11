@@ -2,6 +2,7 @@ package com.dastko.devbookmarks.utilites;
 
 import org.springframework.stereotype.Repository;
 
+import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
@@ -13,24 +14,19 @@ import java.util.List;
 @Repository
 public class HibernateUtil
 {
-//    @Autowired
-//    private SessionFactory sessionFactory;
 
     @PersistenceContext
     private EntityManager entityManager;
 
     public <T> T create(final T entity)
     {
-        //sessionFactory.getCurrentSession().save(entity)
         entityManager.persist(entity);
-        entityManager.flush();
         return entity;
     }
 
     public <T> T update(final T entity)
     {
-//        sessionFactory.getCurrentSession().update(entity);
-        return entity;
+        return entityManager.merge(entity);
     }
 
     /**
@@ -43,8 +39,6 @@ public class HibernateUtil
      */
     public <T> void delete(final T entity)
     {
-        //sessionFactory.getCurrentSession().delete(entity);
-        //entityManager.remove(entity);
         entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
@@ -57,22 +51,24 @@ public class HibernateUtil
     @SuppressWarnings("unchecked")
     public <T> List<T> fetchAll(Class<T> entityClass)
     {
-        //return sessionFactory.getCurrentSession().createQuery(" FROM "+entityClass.getName()).list();
         return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t").getResultList();
     }
 
     @SuppressWarnings("rawtypes")
     public <T> List fetchAll(String query)
     {
-        //return sessionFactory.getCurrentSession().createSQLQuery(query).list();
         return null;
     }
 
     @SuppressWarnings("unchecked")
     public <T> T fetchById(Serializable id, Class<T> entityClass)
     {
-        //Return the persistent instance of the given named entity with the given identifier, or null if there is no such persistent instance.
-        //return (T)sessionFactory.getCurrentSession().get(entityClass, id);
-        return null;
+        return entityManager.find(entityClass, id);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> List <T> fetchLike(Class<T> entityClass, String input)
+    {
+        return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t " + "WHERE t.name LIKE :custInput").setParameter("custInput", "%" + input + "%").getResultList();
     }
 }

@@ -1,36 +1,46 @@
 package com.dastko.devbookmarks.dto;
 
-import com.dastko.devbookmarks.entity.Link;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Created by dastko on 11/9/15.
  */
-public class LinkDTO
+public class LinkDTO implements Serializable
 {
-    @Size(min = 9, max = 30)
-    @NotNull
-    private String link;
+    private static final long serialVersionUID = 1L;
 
-    public LinkDTO()
+    private String name;
+    private String details;
+    private String tags;
+
+
+    public String getName()
     {
-
+        return name;
     }
 
-    public LinkDTO(String link)
+    public void setName(String name)
     {
-        this.link = link;
+        this.name = name;
     }
 
-    public static LinkDTO mapFromLinkEntity(Link link)
+    public String getDetails()
     {
-        return new LinkDTO(link.getName());
+        return details;
     }
 
-    public String getLink()
+    public void setDetails(String details)
     {
-        return link;
+        this.details = details;
+    }
+
+    public String getTags()
+    {
+        return tags;
+    }
+
+    public void setTags(String tags)
+    {
+        this.tags = tags;
     }
 }

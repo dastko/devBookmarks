@@ -31,15 +31,26 @@
             <form:form id="linkRegisterForm" cssClass="form-horizontal" modelAttribute="link" method="post"
                        action="saveLink">
 
-                <div class="form-group">
+                <div class="form-group" >
                     <div class="control-label col-xs-3"><form:label path="name">Name</form:label></div>
                     <div class="col-xs-6">
-                        <form:hidden path="id" value="${linkObject.id}"/>
                         <form:input cssClass="form-control" path="name" value="${linkObject.name}"/>
                     </div>
                 </div>
-
                 <div class="form-group">
+                    <div class="control-label col-xs-3"><form:label path="details">Details</form:label></div>
+                    <div class="col-xs-6">
+                        <form:input cssClass="form-control" path="details" value="${linkObject.details}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="control-label col-xs-3"><form:label path="tags">Tags</form:label></div>
+                    <div class="col-xs-6">
+                        <form:input cssClass="form-control" path="tags" value="${linkObject.tags}"/>
+                    </div>
+                </div>
+
+                    <div class="form-group">
                     <div class="row">
                         <div class="col-xs-4">
                         </div>

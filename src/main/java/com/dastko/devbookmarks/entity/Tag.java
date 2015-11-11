@@ -1,13 +1,16 @@
 package com.dastko.devbookmarks.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by dastko on 11/9/15.
  */
 @Entity
-public class Tag
+public class Tag implements Serializable
 {
+    private static final long serialVersionUID = -7988799579036225137L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -15,4 +18,33 @@ public class Tag
     @ManyToOne
     private Link link;
 
+    public Tag()
+    {
+
+    }
+
+    public Tag(String name)
+    {
+        this.name = name;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public Link getLink()
+    {
+        return link;
+    }
+
+    public void setLink(Link link)
+    {
+        this.link = link;
+    }
 }
