@@ -1,5 +1,5 @@
 
-package com.dastko.devbookmarks.error;
+package com.dastko.devbookmarks.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

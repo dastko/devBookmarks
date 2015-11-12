@@ -1,7 +1,7 @@
-package com.dastko.devbookmarks.error;
+package com.dastko.devbookmarks.exception;
 
 /**
- * Created by dastko on 11/6/15.
+ * Created by dastko
  */
 
 /**

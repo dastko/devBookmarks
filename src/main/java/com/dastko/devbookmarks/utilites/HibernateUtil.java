@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by dastko on 11/5/15.
+ * Created by dastko
  */
 @Repository
 public class HibernateUtil

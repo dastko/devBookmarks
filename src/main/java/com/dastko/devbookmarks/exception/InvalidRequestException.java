@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dastko.devbookmarks.error;
+package com.dastko.devbookmarks.exception;
 
 import org.springframework.validation.BindingResult;
 

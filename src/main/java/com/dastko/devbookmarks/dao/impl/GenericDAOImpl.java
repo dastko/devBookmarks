@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by dastko on 11/11/15.
+ * Created by dastko
  */
 @Repository
 public class GenericDAOImpl implements GenericDAO

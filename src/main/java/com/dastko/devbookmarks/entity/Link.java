@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by dastko on 11/5/15.
+ * Created by dastko
  */
 @Entity
 public class Link implements Serializable

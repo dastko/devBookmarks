@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by dastko on 11/9/15.
+ * Created by dastko
  */
 @RestController
 public class UserController

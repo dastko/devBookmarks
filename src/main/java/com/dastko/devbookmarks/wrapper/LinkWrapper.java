@@ -3,7 +3,7 @@ package com.dastko.devbookmarks.wrapper;
 import java.io.Serializable;
 
 /**
- * Created by dastko on 11/9/15.
+ * Created by dastko
  */
 public class LinkWrapper implements Serializable
 {

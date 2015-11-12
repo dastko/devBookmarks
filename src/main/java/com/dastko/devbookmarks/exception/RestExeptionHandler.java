@@ -1,8 +1,6 @@
-package com.dastko.devbookmarks.utilites;
+package com.dastko.devbookmarks.exception;
 
-import com.dastko.devbookmarks.error.ApiErrors;
-import com.dastko.devbookmarks.error.InvalidRequestException;
-import com.dastko.devbookmarks.error.ResourceNotFoundException;
+import com.dastko.devbookmarks.utilites.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;

@@ -74,14 +74,8 @@ public class Crawler
 
         List<Map.Entry<String, Integer>> list =
                 new LinkedList<>(unsortedMap.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>()
-        {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2)
-            {
-                return (o2.getValue()).compareTo(o1.getValue());
-            }
-        });
+        //lamda expression inseade anonymous inner class creation
+        Collections.sort(list, (Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue().compareTo(o1.getValue()));
         int i = 0;
         Map<String, Integer> sortedMap = new LinkedHashMap<>();
         for (Iterator<Map.Entry<String, Integer>> it = list.iterator(); it.hasNext(); )

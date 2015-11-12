@@ -82,23 +82,6 @@ public class ResponseMessage
         this.errors.add(new Error(field, code, message));
     }
 
-    private List<TagSugestion> tagSugestions = new ArrayList<>();
-
-    public List<TagSugestion> getTagSugestions()
-    {
-        return tagSugestions;
-    }
-
-    public void setTagSugestions(List<TagSugestion> tagSugestions)
-    {
-        this.tagSugestions = tagSugestions;
-    }
-
-    public void addTagSuggetion(String tag)
-    {
-        this.tagSugestions.add(new TagSugestion(tag));
-    }
-
     class Error
     {
 
@@ -141,26 +124,6 @@ public class ResponseMessage
         public void setField(String field)
         {
             this.field = field;
-        }
-    }
-
-    class TagSugestion
-    {
-        private String tag;
-
-        private TagSugestion(String tag)
-        {
-            this.tag = tag;
-        }
-
-        public String getTag()
-        {
-            return tag;
-        }
-
-        public void setTag(String tag)
-        {
-            this.tag = tag;
         }
     }
 }

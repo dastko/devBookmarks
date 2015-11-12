@@ -1,7 +1,7 @@
 package com.dastko.devbookmarks.utilites;
 
 /**
- * Created by dastko on 11/10/15.
+ * Created by dastko
  */
 public class Constants
 {

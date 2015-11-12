@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dastko on 11/6/15.
+ * Created by dastko
  */
 @Entity
 public class User implements Serializable
@@ -85,5 +85,4 @@ public class User implements Serializable
         link.setUser(this);
         getLinks().add(link);
     }
-
 }

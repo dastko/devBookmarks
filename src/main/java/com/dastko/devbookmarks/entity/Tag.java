@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by dastko on 11/9/15.
+ * Created by dastko
  */
 @Entity
 public class Tag implements Serializable

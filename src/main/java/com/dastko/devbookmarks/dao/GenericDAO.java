@@ -4,7 +4,7 @@ package com.dastko.devbookmarks.dao;
 import java.util.List;
 
 /**
- * Created by dastko on 11/11/15.
+ * Created by dastko
  */
 public interface GenericDAO
 {

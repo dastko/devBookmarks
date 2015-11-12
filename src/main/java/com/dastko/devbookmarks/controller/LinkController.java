@@ -21,7 +21,7 @@ import java.security.Principal;
 import java.util.*;
 
 /**
- * Created by dastko on 11/5/15.
+ * Created by dastko
  */
 @RestController
 public class LinkController
@@ -42,7 +42,7 @@ public class LinkController
     @RequestMapping("createLink")
     public ModelAndView createLink(@ModelAttribute("link") LinkWrapper link)
     {
-        logger.info("Creating Link. Data: " + link);
+        logger.info("Creating Link. Data: " + link.getTags());
         return new ModelAndView("linkForm");
     }
 
@@ -50,6 +50,7 @@ public class LinkController
     @RequestMapping(value = "saveLink", method = RequestMethod.POST)
     public ResponseEntity<Set<String>> saveLink(@ModelAttribute LinkWrapper link, Principal principal)
     {
+        logger.info("Creating Link. Data: " + link.getTags() + "Principal: " + principal.getName());
         return new ResponseEntity<>(linkService.createLink(link, principal), HttpStatus.OK);
     }
 
@@ -75,18 +76,4 @@ public class LinkController
         linkService.deleteById(id);
         return new ResponseEntity<>(ResponseMessage.success("Post Deleted"), HttpStatus.NO_CONTENT);
     }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ObjectNode> errorHandler(Exception exc)
-    {
-        logger.error(exc.getMessage(), exc);
-        return new ResponseEntity<>(JsonResponse.buildJsonResponse("error", exc.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-//    @RequestMapping("/links")
-//    public List<Link> getAllLinksApi(@PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable page)
-//    {
-//
-//        return Collections.unmodifiableList(linkService.getAllLinks());
-//    }
 }
