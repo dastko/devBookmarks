@@ -31,7 +31,7 @@ public class Link implements Serializable
     private String details;
     @ManyToOne
     private User user;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "link", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Tag> tags = new HashSet<>();
 

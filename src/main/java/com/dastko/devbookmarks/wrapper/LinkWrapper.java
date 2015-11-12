@@ -1,11 +1,11 @@
-package com.dastko.devbookmarks.dto;
+package com.dastko.devbookmarks.wrapper;
 
 import java.io.Serializable;
 
 /**
  * Created by dastko on 11/9/15.
  */
-public class LinkDTO implements Serializable
+public class LinkWrapper implements Serializable
 {
     private static final long serialVersionUID = 1L;
 

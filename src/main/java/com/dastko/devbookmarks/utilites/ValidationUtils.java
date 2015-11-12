@@ -2,15 +2,11 @@ package com.dastko.devbookmarks.utilites;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by dastko on 11/9/15.
+ * Created by dastko
  */
 public class ValidationUtils
 {
@@ -47,27 +43,6 @@ public class ValidationUtils
     public static void assertFieldConfirmation(String field1, String field2, String message)
     {
         if (!field1.equals(field2))
-        {
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-    public static void isValidURL(String url, String message)
-    {
-        URL u = null;
-
-        try
-        {
-            u = new URL(url);
-        } catch (MalformedURLException e)
-        {
-            throw new IllegalArgumentException(message);
-        }
-
-        try
-        {
-            u.toURI();
-        } catch (URISyntaxException e)
         {
             throw new IllegalArgumentException(message);
         }

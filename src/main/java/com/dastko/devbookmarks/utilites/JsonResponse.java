@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * Created by dastko on 11/6/15.
+ * Created by dastko on
  */
 public class JsonResponse
 {

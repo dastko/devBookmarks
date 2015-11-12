@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * Created by dastko on 11/10/15.
+ * Created by dastko
  */
 public class Crawler
 {
@@ -19,7 +19,6 @@ public class Crawler
         try
         {
             URL url = new URL(content);
-            System.out.println(url.getHost());
             InputSource is = new InputSource();
             is.setEncoding("ISO-8859-1");
             is.setEncoding("UTF-8");
@@ -51,7 +50,6 @@ public class Crawler
             map.put(temp, (count == null) ? 1 : count + 1);
         }
         Map<String, Integer> tags = returnSuggestion(map);
-        System.out.println(sortByComparator(tags));
         Map<String, Integer> suggestion = sortByComparator(tags);
         return suggestion;
     }
@@ -59,7 +57,7 @@ public class Crawler
     private static Map<String, Integer> returnSuggestion(Map<String, Integer> map)
     {
 
-        Map<String, Integer> suggestedTags = new HashMap<String, Integer>();
+        Map<String, Integer> suggestedTags = new HashMap<>();
 
         for (Map.Entry<String, Integer> entry : map.entrySet())
         {
@@ -75,7 +73,7 @@ public class Crawler
     {
 
         List<Map.Entry<String, Integer>> list =
-                new LinkedList<Map.Entry<String, Integer>>(unsortedMap.entrySet());
+                new LinkedList<>(unsortedMap.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>()
         {
             public int compare(Map.Entry<String, Integer> o1,
@@ -85,7 +83,7 @@ public class Crawler
             }
         });
         int i = 0;
-        Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
         for (Iterator<Map.Entry<String, Integer>> it = list.iterator(); it.hasNext(); )
         {
             Map.Entry<String, Integer> entry = it.next();

@@ -38,6 +38,7 @@ public class GenericDAOImpl implements GenericDAO
     @Override
     public <T> void deleteObject(T object)
     {
+        hibernateUtil.delete(object);
     }
 
     @Override
@@ -53,9 +54,9 @@ public class GenericDAOImpl implements GenericDAO
     }
 
     @Override
-    public <T> T getObject(long id)
+    public <T> T getObject(long id, Class<T> entityClass)
     {
-        return null;
+        return hibernateUtil.fetchById(id, entityClass);
     }
 
     @Override

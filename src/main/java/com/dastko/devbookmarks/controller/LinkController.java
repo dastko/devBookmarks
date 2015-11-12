@@ -1,6 +1,7 @@
 package com.dastko.devbookmarks.controller;
 
-import com.dastko.devbookmarks.dto.LinkDTO;
+import com.dastko.devbookmarks.service.TagService;
+import com.dastko.devbookmarks.wrapper.LinkWrapper;
 import com.dastko.devbookmarks.entity.Link;
 import com.dastko.devbookmarks.entity.Tag;
 import com.dastko.devbookmarks.service.LinkService;
@@ -9,6 +10,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +36,11 @@ public class LinkController
     @Autowired
     private LinkService linkService;
 
+    @Autowired
+    private TagService tagService;
+
     @RequestMapping("createLink")
-    public ModelAndView createLink(@ModelAttribute("link") LinkDTO link)
+    public ModelAndView createLink(@ModelAttribute("link") LinkWrapper link)
     {
         logger.info("Creating Link. Data: " + link);
         return new ModelAndView("linkForm");
@@ -42,7 +48,7 @@ public class LinkController
 
 
     @RequestMapping(value = "saveLink", method = RequestMethod.POST)
-    public ResponseEntity<Set<String>> saveLink(@ModelAttribute LinkDTO link, Principal principal)
+    public ResponseEntity<Set<String>> saveLink(@ModelAttribute LinkWrapper link, Principal principal)
     {
         return new ResponseEntity<>(linkService.createLink(link, principal), HttpStatus.OK);
     }
@@ -50,7 +56,7 @@ public class LinkController
     @RequestMapping(value = "/suggestion")
     public ResponseEntity<Set<Tag>> getRecommendedTags(@RequestParam("input") String input)
     {
-        return new ResponseEntity<>(linkService.getRecommendedTags(input), HttpStatus.OK);
+        return new ResponseEntity<>(tagService.getRecommendedTags(input), HttpStatus.OK);
     }
 
     @RequestMapping(value = {"getAllLinks", "/"})
@@ -61,11 +67,6 @@ public class LinkController
         return new ModelAndView("linkList", "linkList", linkList);
     }
 
-    @RequestMapping("/links")
-    public List<Link> getAllLinksApi()
-    {
-        return Collections.unmodifiableList(linkService.getAllLinks());
-    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseMessage> deleteLink(@PathVariable("id") long id)
@@ -81,4 +82,11 @@ public class LinkController
         logger.error(exc.getMessage(), exc);
         return new ResponseEntity<>(JsonResponse.buildJsonResponse("error", exc.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+//    @RequestMapping("/links")
+//    public List<Link> getAllLinksApi(@PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable page)
+//    {
+//
+//        return Collections.unmodifiableList(linkService.getAllLinks());
+//    }
 }

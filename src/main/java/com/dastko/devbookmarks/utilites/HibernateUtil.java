@@ -1,8 +1,6 @@
 package com.dastko.devbookmarks.utilites;
 
 import org.springframework.stereotype.Repository;
-
-import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
@@ -21,6 +19,7 @@ public class HibernateUtil
     public <T> T create(final T entity)
     {
         entityManager.persist(entity);
+        entityManager.flush();
         return entity;
     }
 

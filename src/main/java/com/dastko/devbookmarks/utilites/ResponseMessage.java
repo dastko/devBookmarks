@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dastko on 11/10/15.
+ * Created by dastko
  */
 public class ResponseMessage
 {

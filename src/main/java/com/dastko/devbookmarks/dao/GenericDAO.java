@@ -20,7 +20,7 @@ public interface GenericDAO
 
     public <T> List<T> getAllObjects(Class<T> entityClass);
 
-    public <T> T getObject(long id);
+    public <T> T getObject(long id, Class <T> entityClass);
 
     public <T> List<T> getAllObjects(String inputName);
 

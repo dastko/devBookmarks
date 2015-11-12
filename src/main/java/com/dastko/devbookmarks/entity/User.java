@@ -21,7 +21,7 @@ public class User implements Serializable
     private String email;
     private String firstName;
     private String lastName;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Link> links = new ArrayList<>();
 

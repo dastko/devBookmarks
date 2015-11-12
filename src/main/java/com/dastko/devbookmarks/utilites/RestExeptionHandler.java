@@ -21,7 +21,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * Created by dastko on 11/10/15.
+ * Created by dastko
  */
 @ControllerAdvice(annotations = RestController.class)
 public class RestExeptionHandler extends ResponseEntityExceptionHandler
