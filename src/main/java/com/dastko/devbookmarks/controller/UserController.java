@@ -1,6 +1,5 @@
 package com.dastko.devbookmarks.controller;
 
-import com.dastko.devbookmarks.utilites.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

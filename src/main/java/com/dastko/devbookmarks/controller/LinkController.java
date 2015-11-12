@@ -1,10 +1,8 @@
 package com.dastko.devbookmarks.controller;
 
-import com.dastko.devbookmarks.dao.impl.LinkDAOImpl;
 import com.dastko.devbookmarks.dto.LinkDTO;
 import com.dastko.devbookmarks.entity.Link;
 import com.dastko.devbookmarks.entity.Tag;
-import com.dastko.devbookmarks.error.ResourceNotFoundException;
 import com.dastko.devbookmarks.service.LinkService;
 import com.dastko.devbookmarks.utilites.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -13,18 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dastko on 11/5/15.
@@ -51,29 +42,15 @@ public class LinkController
 
 
     @RequestMapping(value = "saveLink", method = RequestMethod.POST)
-    public ModelAndView saveLink(@ModelAttribute LinkDTO link, Principal principal)
+    public ResponseEntity<Set<String>> saveLink(@ModelAttribute LinkDTO link, Principal principal)
     {
-        logger.info("Saving Link. Data : " + principal.getName() + "get: " + link);
-        linkService.createTestLink(link, principal);
-        return new ModelAndView("redirect:");
+        return new ResponseEntity<>(linkService.createLink(link, principal), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addlink", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<String>> saveLinkDTO(@RequestBody LinkDTO link)
+    @RequestMapping(value = "/suggestion")
+    public ResponseEntity<Set<Tag>> getRecommendedTags(@RequestParam("input") String input)
     {
-        linkService.createLinkParametars(link);
-        Map<String, Integer> sugesstion = Crawler.grabURLContent(link.getName());
-        List<String> values = new ArrayList<>(sugesstion.keySet());
-        return new ResponseEntity<>(values, HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/addtest", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> savetest(@RequestBody LinkDTO linkDTO, Principal principal)
-    {
-        //Link link = DTOUtils.map(linkDTO, Link.class);
-        linkService.createTestLink(linkDTO, principal);
-        return new ResponseEntity<>(ResponseMessage.success("Successfully created!"), HttpStatus.OK);
+        return new ResponseEntity<>(linkService.getRecommendedTags(input), HttpStatus.OK);
     }
 
     @RequestMapping(value = {"getAllLinks", "/"})
@@ -84,30 +61,10 @@ public class LinkController
         return new ModelAndView("linkList", "linkList", linkList);
     }
 
-    @RequestMapping(value = "/test")
-    public ResponseEntity<List<Link>> test(@RequestBody LinkDTO link)
-    {
-        //TODO retrieve only some information
-        List<Link> links = linkService.fetchByInputString(link.getName());
-        return new ResponseEntity<>(Collections.unmodifiableList(links), HttpStatus.OK);
-    }
-
     @RequestMapping("/links")
     public List<Link> getAllLinksApi()
     {
         return Collections.unmodifiableList(linkService.getAllLinks());
-    }
-
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResponseEntity<Link> saveLink2(@RequestBody Link link)
-    {
-        HttpStatus status = HttpStatus.OK;
-        if (!linkService.exists(link.getName()))
-        {
-            status = HttpStatus.CREATED;
-        }
-        linkService.createLink(link);
-        return new ResponseEntity<>(link, status);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

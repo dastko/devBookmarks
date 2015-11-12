@@ -1,7 +1,6 @@
 package com.dastko.devbookmarks.service.impl;
 
 import com.dastko.devbookmarks.dao.GenericDAO;
-import com.dastko.devbookmarks.dao.LinkDAO;
 import com.dastko.devbookmarks.dto.LinkDTO;
 import com.dastko.devbookmarks.entity.Link;
 import com.dastko.devbookmarks.entity.Tag;
@@ -16,7 +15,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.Principal;
 import java.util.*;
-import java.util.jar.JarEntry;
 
 /**
  * Created by dastko on 11/5/15.
@@ -33,74 +31,31 @@ public class LinkServiceImpl implements LinkService
     }
 
     @Autowired
-    private LinkDAO linkDAO;
-
-    @Autowired
     private GenericDAO genericDAO;
 
-
     @Override
-    public void createLink(Link link)
+    public Set<String> createLink(LinkDTO linkDTO, Principal principal)
     {
-        linkDAO.createLink(link);
-    }
-
-
-    /**
-     * save the transient instance before flushing
-     *
-     * @param link
-     */
-    @Override
-    public List<Link> createLinkParametars(LinkDTO link)
-    {
-        final String name = link.getName();
-        ValidationUtils.assertSizeLength(name, 6, 250, "Minimum 6, Maximum 250 characters");
+        final String name = linkDTO.getName();
+        ValidationUtils.assertSizeLength(name, 8, 250, "Minimum 8, Maximum 250 characters");
         ValidationUtils.assertNotBlank(name, "Not null");
         ValidationUtils.urlValidation(name, "Invalid URL");
-        urlValidation(name);
-        System.out.println("GET HOST: " + search);
 
-        List<Link> linksByInput = linkDAO.fetchByInputString(name);
-        Set<Tag> recommendedTags = new HashSet<>();
-        if (linksByInput != null)
-        {
-            for (Link links : linksByInput)
-            {
-                recommendedTags.addAll(links.getTags());
-            }
-        }
-
-        link.setName(name);
-        Link linkMapper = DTOUtils.map(link, Link.class);
-        //TODO retrieve user from session
-        User user = new User();
-        user.setId(1);
-        linkMapper.setUser(user);
-        linkDAO.createLink(linkMapper);
-
-        //return DTOUtils.map(linkMapper, LinkDTO.class);
-        return linksByInput;
-    }
-
-    public void createTestLink(LinkDTO linkDTO, Principal principal)
-    {
-        //principal.getName();
+        //User user = (User)((Authentication) principal).getPrincipal();
         User user = new User();
         user.setId(2);
-
         String[] splitTagsByComma = linkDTO.getTags().trim().split("\\s*,\\s*");
-        Link link = new Link();
-        link.setUser(user);
-        link.setDate(new Date());
-        link.setName(linkDTO.getName());
-        link.setDetails(linkDTO.getDetails());
+        Link link = new Link(user, new Date(), linkDTO.getName(), linkDTO.getDetails());
         for (String strings : splitTagsByComma)
         {
             link.tagIt(new Tag(strings));
         }
         user.addLink(link);
-        genericDAO.createLink(user);
+        genericDAO.createObject(link);
+
+        // Return list of suggested tags
+        Map<String, Integer> suggestion = Crawler.grabURLContent(link.getName());
+        return Collections.unmodifiableSet(suggestion.keySet());
     }
 
     @Override
@@ -112,19 +67,19 @@ public class LinkServiceImpl implements LinkService
     @Override
     public void deleteLink(Link link)
     {
-        linkDAO.deleteLink(link);
+        genericDAO.deleteObject(link);
     }
 
     @Override
     public void deleteById(long id)
     {
-        linkDAO.deleteById(id);
+        genericDAO.deleteById(id, Link.class);
     }
 
     @Override
     public List<Link> getAllLinks()
     {
-        return linkDAO.getAllLinks();
+        return genericDAO.getAllObjects(Link.class);
     }
 
     @Override
@@ -148,7 +103,23 @@ public class LinkServiceImpl implements LinkService
     @Override
     public List<Link> fetchByInputString(String input)
     {
-        return linkDAO.fetchByInputString(input);
+        return genericDAO.fetchByInputString(Link.class, input);
+    }
+
+    @Override
+    public Set<Tag> getRecommendedTags(String input)
+    {
+        urlValidation(input);
+        List<Link> linksByInput = genericDAO.fetchByInputString(Link.class, search);
+        Set<Tag> recommendedTags = new HashSet<>();
+        if (linksByInput != null)
+        {
+            for (Link links : linksByInput)
+            {
+                recommendedTags.addAll(links.getTags());
+            }
+        }
+        return recommendedTags;
     }
 
     public void urlValidation(String name)

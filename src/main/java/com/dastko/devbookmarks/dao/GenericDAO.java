@@ -8,19 +8,21 @@ import java.util.List;
  */
 public interface GenericDAO
 {
-    public <T> T createLink(T link);
+    public <T> T createObject(T object);
 
-    public <T> T updateLink(T link);
+    public <T> T createObject(T object, T secondObject);
 
-    public <T> void deleteLink(T link);
+    public <T> T updateObject(T object);
+
+    public <T> void deleteObject(T object);
 
     public <T> void deleteById(long id, Class <T> entityClass);
 
-    public <T> List<T> getAllLinks(Class<T> entityClass);
+    public <T> List<T> getAllObjects(Class<T> entityClass);
 
-    public <T> T getLink(long id);
+    public <T> T getObject(long id);
 
-    public <T> List<T> getAllLinks(String linkName);
+    public <T> List<T> getAllObjects(String inputName);
 
-    public <T> List<T> fetchByInputString(String input);
+    public <T> List<T> fetchByInputString(Class<T> entityClass, String input);
 }

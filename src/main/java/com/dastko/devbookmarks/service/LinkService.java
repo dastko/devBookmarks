@@ -2,20 +2,21 @@ package com.dastko.devbookmarks.service;
 
 import com.dastko.devbookmarks.dto.LinkDTO;
 import com.dastko.devbookmarks.entity.Link;
+import com.dastko.devbookmarks.entity.Tag;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by dastko on 11/5/15.
  */
 public interface LinkService
 {
-    public void createLink(Link link);
+    public Set<String> createLink(LinkDTO linkDTO, Principal principal);
 
-    public List <Link> createLinkParametars(LinkDTO link);
-
-    public void createTestLink(LinkDTO linkDTO, Principal principal);
+    public Set<Tag> getRecommendedTags(String input);
 
     public Link updateLink(Link link);
 

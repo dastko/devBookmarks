@@ -16,22 +16,28 @@ public class GenericDAOImpl implements GenericDAO
     @Autowired
     private HibernateUtil hibernateUtil;
 
+
     @Override
-    public <T> T createLink(T link)
+    public <T> T createObject(T object)
     {
-        return hibernateUtil.create(link);
+        return hibernateUtil.create(object);
     }
 
     @Override
-    public <T> T updateLink(T link)
+    public <T> T createObject(T object, T secondObject)
     {
-        return hibernateUtil.update(link);
+        return null;
     }
 
     @Override
-    public <T> void deleteLink(T link)
+    public <T> T updateObject(T object)
     {
+        return hibernateUtil.update(object);
+    }
 
+    @Override
+    public <T> void deleteObject(T object)
+    {
     }
 
     @Override
@@ -41,26 +47,26 @@ public class GenericDAOImpl implements GenericDAO
     }
 
     @Override
-    public <T> List<T> getAllLinks(Class<T> entityClass)
+    public <T> List<T> getAllObjects(Class<T> entityClass)
     {
         return hibernateUtil.fetchAll(entityClass);
     }
 
     @Override
-    public <T> T getLink(long id)
+    public <T> T getObject(long id)
     {
         return null;
     }
 
     @Override
-    public <T> List<T> getAllLinks(String linkName)
+    public <T> List<T> getAllObjects(String inputName)
     {
         return null;
     }
 
     @Override
-    public <T> List<T> fetchByInputString(String input)
+    public <T> List<T> fetchByInputString(Class<T> entityClass, String input)
     {
-        return null;
+        return hibernateUtil.fetchLike(entityClass, input);
     }
 }
