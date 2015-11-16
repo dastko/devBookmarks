@@ -61,9 +61,7 @@ public class LinkServiceImpl implements LinkService
         }
         user.addLink(link);
         BookElasticsearch bookElasticsearch = new BookElasticsearch(("1"), link.getName(), 123456L);
-        IndexQuery indexQuery = new IndexQueryBuilder().withId(bookElasticsearch.getId()).withObject(bookElasticsearch).build();
-        genericDAO.createObject(link);
-        elasticsearchTemplate.index(indexQuery);
+        genericDAO.createObject(link, bookElasticsearch);
         // Return list of suggested tags
         Map<String, Integer> suggestion = Crawler.grabURLContent(link.getName());
         return Collections.unmodifiableSet(suggestion.keySet());

@@ -8,7 +8,6 @@ import java.util.List;
  */
 public interface GenericDAO
 {
-    public <T> T createObject(T object);
 
     public <T> T createObject(T object, T secondObject);
 
@@ -25,4 +24,7 @@ public interface GenericDAO
     public <T> List<T> getAllObjects(String inputName);
 
     public <T> List<T> fetchByInputString(Class<T> entityClass, String input);
+
+    public <T> T createTransaction(final T entity, final T elasticEntity);
+
 }

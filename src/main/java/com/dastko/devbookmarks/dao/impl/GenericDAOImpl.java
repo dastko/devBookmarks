@@ -18,16 +18,9 @@ public class GenericDAOImpl implements GenericDAO
 
 
     @Override
-    public <T> T createObject(T object)
-    {
-        return hibernateUtil.create(object);
-    }
-
-    @Override
     public <T> T createObject(T object, T secondObject)
     {
-        hibernateUtil.create(secondObject);
-        return hibernateUtil.create(object);
+        return hibernateUtil.create(object, secondObject);
 
     }
 
@@ -72,4 +65,10 @@ public class GenericDAOImpl implements GenericDAO
     {
         return hibernateUtil.fetchLike(entityClass, input);
     }
+
+    @Override
+    public <T> T createTransaction(final T entity, final T elasticEntity){
+        return hibernateUtil.createTransaction(entity, elasticEntity);
+    }
+
 }
