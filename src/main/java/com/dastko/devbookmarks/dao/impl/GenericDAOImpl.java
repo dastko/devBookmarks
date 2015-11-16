@@ -26,7 +26,9 @@ public class GenericDAOImpl implements GenericDAO
     @Override
     public <T> T createObject(T object, T secondObject)
     {
-        return null;
+        hibernateUtil.create(secondObject);
+        return hibernateUtil.create(object);
+
     }
 
     @Override

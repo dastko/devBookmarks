@@ -14,6 +14,7 @@
            <intercept-url pattern="/login" access="permitAll"  />
            <intercept-url pattern="/suggestion" method="POST" access="permitAll" />
            <intercept-url pattern="/" access="hasRole('ROLE_USER')" />
+           <intercept-url pattern="/app/**" access="hasRole('ROLE_USER')" />
            <intercept-url pattern="/deleteLink" access="hasRole('ROLE_USER')" />
            <intercept-url pattern="/saveLink" access="hasRole('ROLE_USER')" />
              <form-login

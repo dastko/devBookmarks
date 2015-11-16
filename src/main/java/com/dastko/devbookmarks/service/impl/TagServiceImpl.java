@@ -17,7 +17,6 @@ import java.util.Set;
  * Created by dastko
  */
 @Service
-@Transactional
 public class TagServiceImpl implements TagService
 {
 

@@ -1,8 +1,8 @@
 package com.dastko.devbookmarks.service;
 
-import com.dastko.devbookmarks.wrapper.LinkWrapper;
+import com.dastko.devbookmarks.entity.BookElasticsearch;
+import com.dastko.devbookmarks.helpers.LinkWrapper;
 import com.dastko.devbookmarks.entity.Link;
-import com.dastko.devbookmarks.entity.Tag;
 
 import java.security.Principal;
 import java.util.List;
@@ -31,4 +31,5 @@ public interface LinkService
 
     public List<Link> fetchByInputString(String input);
 
-}
+
+    }

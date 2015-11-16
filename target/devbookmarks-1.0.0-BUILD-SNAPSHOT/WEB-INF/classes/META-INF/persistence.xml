@@ -5,6 +5,7 @@
         <class>com.dastko.devbookmarks.entity.Link</class>
         <class>com.dastko.devbookmarks.entity.User</class>
         <class>com.dastko.devbookmarks.entity.Tag</class>
+        <class>com.dastko.devbookmarks.entity.Friendship</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <validation-mode>NONE</validation-mode>
         <properties>

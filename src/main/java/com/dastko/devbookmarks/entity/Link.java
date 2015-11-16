@@ -37,7 +37,6 @@ public class Link implements Serializable
 
     public Link()
     {
-
     }
 
     public Link(User user, Date date, String name, String details)
@@ -48,10 +47,6 @@ public class Link implements Serializable
         this.details = details;
     }
 
-    public static long getSerialVersionUID()
-    {
-        return serialVersionUID;
-    }
 
     public long getId()
     {

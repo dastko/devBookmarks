@@ -6,17 +6,21 @@
              xmlns:mvc="http://www.springframework.org/schema/mvc"
              xmlns:context="http://www.springframework.org/schema/context"
              xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
 
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven/>
 
-    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+
+    <mvc:resources mapping="/app/**" location="/app/build/"/>
+
+        <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
     <resources mapping="/resources/**" location="/resources/"/>
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
@@ -30,58 +34,58 @@
     <context:component-scan base-package="com.dastko.devbookmarks"/>
 
     <!-- Getting Database properties -->
-    <context:property-placeholder location="classpath:application.properties" />
+    <context:property-placeholder location="classpath:application.properties"/>
 
-    <beans:bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-          destroy-method="close">
-        <beans:property name="driverClass" value="${database.driverClass}" />
-        <beans:property name="jdbcUrl" value="${database.url}" />
-        <beans:property name="user" value="${database.username}" />
-        <beans:property name="password" value="${database.password}" />
+    <!--<beans:bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"-->
+                <!--destroy-method="close">-->
+        <!--<beans:property name="driverClass" value="${database.driverClass}"/>-->
+        <!--<beans:property name="jdbcUrl" value="${database.url}"/>-->
+        <!--<beans:property name="user" value="${database.username}"/>-->
+        <!--<beans:property name="password" value="${database.password}"/>-->
 
-        <beans:property name="acquireIncrement" value="${connection.acquireIncrement}" />
-        <beans:property name="initialPoolSize" value="${connection.initialPoolSize}" />
-        <beans:property name="minPoolSize" value="${connection.minPoolSize}" />
-        <beans:property name="maxPoolSize" value="${connection.maxPoolSize}" />
-        <beans:property name="maxIdleTime" value="${connection.maxIdleTime}" />
-    </beans:bean>
-
-    <!--<beans:bean id="dataSource"-->
-          <!--class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-
-        <!--<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
-        <!--<beans:property name="url" value="jdbc:mysql://localhost:3306/test" />-->
-        <!--<beans:property name="username" value="root" />-->
-        <!--<beans:property name="password" value="root" />-->
+        <!--<beans:property name="acquireIncrement" value="${connection.acquireIncrement}"/>-->
+        <!--<beans:property name="initialPoolSize" value="${connection.initialPoolSize}"/>-->
+        <!--<beans:property name="minPoolSize" value="${connection.minPoolSize}"/>-->
+        <!--<beans:property name="maxPoolSize" value="${connection.maxPoolSize}"/>-->
+        <!--<beans:property name="maxIdleTime" value="${connection.maxIdleTime}"/>-->
     <!--</beans:bean>-->
+
+    <beans:bean id="dataSource"
+    class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+    <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    <beans:property name="url" value="jdbc:mysql://localhost:3306/test" />
+    <beans:property name="username" value="root" />
+    <beans:property name="password" value="root" />
+    </beans:bean>
 
 
     <!-- Hibernate SessionFactory -->
     <!--<beans:bean id="sessionFactory"-->
-          <!--class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
-        <!--<beans:property name="dataSource" ref="dataSource"></beans:property>-->
-        <!--<beans:property name="hibernateProperties">-->
-            <!--<beans:props>-->
-                <!--<beans:prop key="hibernate.dialect">${hibernate.dialect}</beans:prop>-->
-                <!--<beans:prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</beans:prop>-->
-                <!--<beans:prop key="hibernate.format_sql">${hibernate.format_sql}</beans:prop>-->
-                <!--<beans:prop key="hibernate.show_sql">${hibernate.show_sql}</beans:prop>-->
-            <!--</beans:props>-->
-        <!--</beans:property>-->
-        <!--<beans:property name="packagesToScan" value="com.dastko.devbookmarks.entity"></beans:property>-->
+    <!--class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
+    <!--<beans:property name="dataSource" ref="dataSource"></beans:property>-->
+    <!--<beans:property name="hibernateProperties">-->
+    <!--<beans:props>-->
+    <!--<beans:prop key="hibernate.dialect">${hibernate.dialect}</beans:prop>-->
+    <!--<beans:prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</beans:prop>-->
+    <!--<beans:prop key="hibernate.format_sql">${hibernate.format_sql}</beans:prop>-->
+    <!--<beans:prop key="hibernate.show_sql">${hibernate.show_sql}</beans:prop>-->
+    <!--</beans:props>-->
+    <!--</beans:property>-->
+    <!--<beans:property name="packagesToScan" value="com.dastko.devbookmarks.entity"></beans:property>-->
     <!--</beans:bean>-->
 
 
     <!-- Transaction -->
     <!--<beans:bean id="transactionManager"-->
-          <!--class="org.springframework.orm.hibernate4.HibernateTransactionManager">-->
-        <!--<beans:property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--class="org.springframework.orm.hibernate4.HibernateTransactionManager">-->
+    <!--<beans:property name="sessionFactory" ref="sessionFactory"/>-->
     <!--</beans:bean>-->
     <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
 
 
-
-    <beans:bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+    <beans:bean id="persistenceUnitManager"
+                class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
         <beans:property name="persistenceXmlLocations">
             <beans:list>
                 <beans:value>classpath*:META-INF/persistence.xml</beans:value>

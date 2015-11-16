@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by dastko
@@ -15,6 +16,8 @@ import java.util.List;
 @Entity
 public class User implements Serializable
 {
+    private static final long serialVersionUID = -7988799579036225137L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,10 +27,14 @@ public class User implements Serializable
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Link> links = new ArrayList<>();
+    @OneToMany(mappedBy = "friendRequester")
+    private Set<Friendship> requestedFriends;
+
+    @OneToMany(mappedBy = "friendAccepter")
+    private Set<Friendship> receivedFriends;
 
     public User()
     {
-
     }
 
     public long getId()

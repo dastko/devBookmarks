@@ -1,22 +1,23 @@
 package com.dastko.devbookmarks.controller;
 
+import com.dastko.devbookmarks.entity.BookElasticsearch;
 import com.dastko.devbookmarks.service.TagService;
-import com.dastko.devbookmarks.wrapper.LinkWrapper;
+import com.dastko.devbookmarks.helpers.LinkWrapper;
 import com.dastko.devbookmarks.entity.Link;
 import com.dastko.devbookmarks.entity.Tag;
 import com.dastko.devbookmarks.service.LinkService;
 import com.dastko.devbookmarks.utilites.*;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.*;
 
@@ -48,9 +49,8 @@ public class LinkController
 
 
     @RequestMapping(value = "saveLink", method = RequestMethod.POST)
-    public ResponseEntity<Set<String>> saveLink(@ModelAttribute LinkWrapper link, Principal principal)
+    public ResponseEntity<Set<String>> saveLink(@ModelAttribute LinkWrapper link, Principal principal, BindingResult bindingResult)
     {
-        logger.info("Creating Link. Data: " + link.getTags() + "Principal: " + principal.getName());
         return new ResponseEntity<>(linkService.createLink(link, principal), HttpStatus.OK);
     }
 
@@ -76,4 +76,10 @@ public class LinkController
         linkService.deleteById(id);
         return new ResponseEntity<>(ResponseMessage.success("Post Deleted"), HttpStatus.NO_CONTENT);
     }
+
+//    @RequestMapping(value = "/test", method = RequestMethod.DELETE)
+//    public ResponseEntity<ResponseMessage> saving(@ModelAttribute BookElasticsearch bookElasticsearch)
+//    {
+//        linkService.save()
+//    }
 }
