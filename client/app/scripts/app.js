@@ -26,4 +26,11 @@
         controller: 'MainController'
       });
   });
+
+  app.run(function ($state, authenticationService){
+
+    if(authenticationService.isLoggedIn === false){
+      $state.go('login');
+    }
+  });
 })();

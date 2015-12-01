@@ -8,14 +8,13 @@
     $stateProvider.state('link', {
       url: '/link',
       resolve: {
-        '': function (authenticationService, linkService, $state) {
+        'onStart': function ($state, authenticationService, linkService) {
           if (!authenticationService.isLoggedIn()) {
-            linkService.getAllLinks();
-            authenticationService.init();
+            console.log(authenticationService.isLoggedIn());
+            $state.go("login");
           } else {
-            $state.go('login');
+            linkService.getAllLinks();
           }
-          //authenticationService.init();
         }
       },
       templateUrl: 'views/link.html',
@@ -28,12 +27,20 @@
   mod.controller("LinkController", function (linkService) {
     var self = this;
     self.newLink = {name: "", details: "", tags: []};
+    self.newFriend = {requesterId: "", accepterId: ""};
     self.addLink = addLink;
+    self.addFriend = addFriend;
     self.linkService = linkService;
 
     function addLink() {
       self.linkService.addLink(self.newLink);
       self.newLink = {name: "", details: "", tags: []};
+    }
+
+    function addFriend()
+    {
+      self.linkService.addFriend(self.newFriend);
+      self.newFriend = {requesterId: "", accepterId: ""};
     }
   });
 })();

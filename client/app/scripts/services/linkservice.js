@@ -3,10 +3,11 @@
 
   var module = angular.module('devBookmarksClientApp.link');
 
-  module.service('linkService', ["$http", "$state", "usSpinnerService", function ($http, usSpinnerService) {
+  module.service('linkService', ["$http", "$state", "usSpinnerService", function ($http) {
 
     var self = this;
     self.addLink = addLink;
+    self.addFriend = addFriend;
     self.loadTags = loadTags;
     self.getAllLinks = getAllLinks;
     self.tags = [];
@@ -21,11 +22,21 @@
         });
     }
 
+    function addFriend(newFriend) {
+      $http.post("/api/addFriend", newFriend)
+        .then(function (response) {
+          console.log(response);
+        }, function (response) {
+          console.log(response);
+        });
+    }
+
+
     function getAllLinks()
     {
       $http.get("/api/user/links").then(function (response){
-        self.links.push((response.data));
         console.log(response.data);
+        self.links.push((response.data));
       }, function (response) {
         console.log(response)
       })

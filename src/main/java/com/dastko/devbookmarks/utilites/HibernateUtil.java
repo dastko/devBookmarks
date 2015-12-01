@@ -7,8 +7,10 @@ import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,7 +21,8 @@ import java.util.List;
 public class HibernateUtil
 {
 
-    @PersistenceContext
+    // failed to lazily initialize a collection of role without EXTENDED type
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
     @Autowired
     private ElasticsearchOperations elasticsearchTemplate;
@@ -34,6 +37,20 @@ public class HibernateUtil
         IndexQuery indexQuery = new IndexQueryBuilder().withId(id).withObject(elasticEntity).build();
         elasticsearchTemplate.index(indexQuery);
         entityManager.flush();
+        return entity;
+    }
+
+    @Transactional
+    public <T> T createObject(final T entity)
+    {
+        if (entityManager.contains(entity))
+        {
+            entityManager.merge(entity);
+        } else
+        {
+            entityManager.persist(entity);
+            entityManager.flush();
+        }
         return entity;
     }
 
@@ -81,13 +98,14 @@ public class HibernateUtil
     }
 
     @SuppressWarnings("unchecked")
-    public <T> List <T> fetchLike(Class<T> entityClass, String input)
+    public <T> List<T> fetchLike(Class<T> entityClass, String input)
     {
         return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t " + "WHERE t.name LIKE :custInput").setParameter("custInput", "%" + input + "%").getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public <T> List <T> findObjectsById(Class<T> entityClass, Long id){
+    public <T> List<T> findObjectsById(Class<T> entityClass, Long id)
+    {
         return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t " + "WHERE t.user.id= :id" + " ORDER BY t.date desc").setParameter("id", id).getResultList();
     }
 

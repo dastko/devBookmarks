@@ -5,6 +5,7 @@ import com.dastko.devbookmarks.utilites.HibernateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -22,6 +23,12 @@ public class GenericDAOImpl implements GenericDAO
     {
         return hibernateUtil.create(object, elasticObject);
 
+    }
+
+    @Override
+    public <T> T create(T object)
+    {
+        return hibernateUtil.createObject(object);
     }
 
     @Override
@@ -70,6 +77,12 @@ public class GenericDAOImpl implements GenericDAO
     public <T> List<T> getAllObjectByUserId(Class<T> entityClass, Long input)
     {
         return hibernateUtil.findObjectsById(entityClass, input);
+    }
+
+    @Override
+    public <T> T fetchById(Serializable id, Class<T> entityClass)
+    {
+        return hibernateUtil.fetchById(id, entityClass);
     }
 
 }

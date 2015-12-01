@@ -14,16 +14,23 @@ public class Friendship implements Serializable
 {
     @Id
     @ManyToOne
-    User friendRequester;
-    @Id
+    private User friendRequester;
     @ManyToOne
-    User friendAccepter;
+    private User friendAccepter;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column
-    Date date = new Date();
+    private Date date = new Date();
+    private boolean confirmedFriendship;
+    private boolean deleteRequest;
 
     public Friendship()
     {
+    }
+
+    public Friendship(User friendRequester, User friendAccepter)
+    {
+        this.friendAccepter = friendAccepter;
+        this.friendRequester = friendRequester;
     }
 
     public User getFriendAccepter()
@@ -54,5 +61,25 @@ public class Friendship implements Serializable
     public void setFriendRequester(User friendRequester)
     {
         this.friendRequester = friendRequester;
+    }
+
+    public boolean isConfirmedFriendship()
+    {
+        return confirmedFriendship;
+    }
+
+    public void setConfirmedFriendship(boolean confirmedFriendship)
+    {
+        this.confirmedFriendship = confirmedFriendship;
+    }
+
+    public boolean isDeleteRequest()
+    {
+        return deleteRequest;
+    }
+
+    public void setDeleteRequest(boolean deleteRequest)
+    {
+        this.deleteRequest = deleteRequest;
     }
 }

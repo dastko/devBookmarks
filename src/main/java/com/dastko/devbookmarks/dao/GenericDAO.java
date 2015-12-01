@@ -1,6 +1,7 @@
 package com.dastko.devbookmarks.dao;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,6 +9,8 @@ import java.util.List;
  */
 public interface GenericDAO
 {
+
+    public <T> T create(T object);
 
     public <T> T createObject(T object, T elasticObject);
 
@@ -25,6 +28,7 @@ public interface GenericDAO
 
     public <T> List<T> fetchByInputString(Class<T> entityClass, String input);
 
-    public <T> List<T> getAllObjectByUserId(Class<T> entityClass, Long input);
+    public <T> T fetchById(Serializable id, Class<T> entityClass);
 
+    public <T> List<T> getAllObjectByUserId(Class<T> entityClass, Long input);
 }

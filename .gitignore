@@ -1,4 +1,4 @@
 # GitIgnore Files
-.idea
-.settings
-target
+.idea/
+.settings/
+target/

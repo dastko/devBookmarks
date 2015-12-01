@@ -96,7 +96,6 @@ public class LinkController
     @RequestMapping(value="/api/user/links", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<LinkWrapper>> getLinksByUser(Principal principal)
     {
-
         return new ResponseEntity<>(linkService.getAllLinksByUserId(2L), HttpStatus.OK);
     }
 }

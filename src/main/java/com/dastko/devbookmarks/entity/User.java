@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,8 @@ public class User implements Serializable
     private static final long serialVersionUID = -7988799579036225137L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String email;
     private String firstName;
@@ -27,11 +29,12 @@ public class User implements Serializable
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Link> links = new ArrayList<>();
-    @OneToMany(mappedBy = "friendRequester")
-    private Set<Friendship> requestedFriends;
-
-    @OneToMany(mappedBy = "friendAccepter")
-    private Set<Friendship> receivedFriends;
+    @OneToMany(mappedBy = "friendRequester", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Friendship> requestedFriends = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "friendAccepter", cascade = CascadeType.ALL)
+    private Set<Friendship> receivedFriends = new HashSet<>();
 
     public User()
     {
@@ -87,9 +90,34 @@ public class User implements Serializable
         this.links = links;
     }
 
+    public Set<Friendship> getRequestedFriends()
+    {
+        return requestedFriends;
+    }
+
+    public void setRequestedFriends(Set<Friendship> requestedFriends)
+    {
+        this.requestedFriends = requestedFriends;
+    }
+
+    public Set<Friendship> getReceivedFriends()
+    {
+        return receivedFriends;
+    }
+
+    public void setReceivedFriends(Set<Friendship> receivedFriends)
+    {
+        this.receivedFriends = receivedFriends;
+    }
+
     public void addLink(Link link)
     {
         link.setUser(this);
         getLinks().add(link);
+    }
+
+    public void sendFriendRequest(Friendship friendRequester)
+    {
+        requestedFriends.add(friendRequester);
     }
 }
