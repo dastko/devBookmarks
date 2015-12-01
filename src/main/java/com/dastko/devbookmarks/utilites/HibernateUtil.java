@@ -1,15 +1,13 @@
 package com.dastko.devbookmarks.utilites;
 
-import com.dastko.devbookmarks.entity.BookElasticsearch;
+import com.dastko.devbookmarks.entity.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
@@ -31,34 +29,13 @@ public class HibernateUtil
     public <T> T create(final T entity, final T elasticEntity)
     {
         entityManager.persist(entity);
-        IndexQuery indexQuery = new IndexQueryBuilder().withObject(elasticEntity).build();
+        Link link = (Link) entity;
+        String id = Long.toString(link.getId());
+        IndexQuery indexQuery = new IndexQueryBuilder().withId(id).withObject(elasticEntity).build();
         elasticsearchTemplate.index(indexQuery);
         entityManager.flush();
         return entity;
     }
-
-    public <T> T createTransaction(final T entity, final T elasticEntity)
-    {
-        EntityTransaction tx = null;
-        try
-        {
-            tx = entityManager.getTransaction();
-            tx.begin();
-            entityManager.persist(entity);
-            IndexQuery indexQuery = new IndexQueryBuilder().withObject(elasticEntity).build();
-            elasticsearchTemplate.index(indexQuery);
-            tx.commit();
-        } catch (RuntimeException e)
-        {
-            if (tx != null && tx.isActive()) tx.rollback();
-            throw e; // or display error message
-        } finally
-        {
-            entityManager.close();
-        }
-        return entity;
-    }
-
 
 
     public <T> T update(final T entity)
@@ -108,4 +85,11 @@ public class HibernateUtil
     {
         return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t " + "WHERE t.name LIKE :custInput").setParameter("custInput", "%" + input + "%").getResultList();
     }
+
+    @SuppressWarnings("unchecked")
+    public <T> List <T> findObjectsById(Class<T> entityClass, Long id){
+        return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t " + "WHERE t.user.id= :id" + " ORDER BY t.date desc").setParameter("id", id).getResultList();
+    }
+
+
 }

@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,19 +23,8 @@ public class BookElasticsearch
     private Long price;
     @Version
     private Long version;
-
-//    public Map<Integer, Collection<String>> getBuckets()
-//    {
-//        return buckets;
-//    }
-//
-//    public void setBuckets(Map<Integer, Collection<String>> buckets)
-//    {
-//        this.buckets = buckets;
-//    }
-//
-//    @Field(type = FieldType.Nested)
-//    private Map<Integer, Collection<String>> buckets = new HashMap<Integer, Collection<String>>();
+    @Field(type = FieldType.Nested)
+    private List<Tag> tags;
 
     public BookElasticsearch()
     {
@@ -85,5 +75,15 @@ public class BookElasticsearch
     public void setVersion(Long version)
     {
         this.version = version;
+    }
+
+    public List<Tag> getTags()
+    {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags)
+    {
+        this.tags = tags;
     }
 }

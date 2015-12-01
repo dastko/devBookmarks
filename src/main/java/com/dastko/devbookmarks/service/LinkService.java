@@ -31,5 +31,6 @@ public interface LinkService
 
     public List<Link> fetchByInputString(String input);
 
+    public List <LinkWrapper> getAllLinksByUserId(Long id);
 
     }

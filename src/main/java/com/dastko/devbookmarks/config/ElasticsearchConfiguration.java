@@ -22,7 +22,7 @@ public class ElasticsearchConfiguration
     @Bean(name="elasticsearchTemplate")
     public static ElasticsearchOperations elasticsearchTemplate()
     {
-        Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "elasticsearch").put("node.name", "Elias Bogan").build();
+        Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "elasticsearch").build();
         TransportClient transportClient = new TransportClient(settings);
         Client client = transportClient.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
         return new ElasticsearchTemplate(client);

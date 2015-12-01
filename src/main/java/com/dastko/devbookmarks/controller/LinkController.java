@@ -1,6 +1,7 @@
 package com.dastko.devbookmarks.controller;
 
-import com.dastko.devbookmarks.entity.BookElasticsearch;
+import com.dastko.devbookmarks.entity.User;
+import com.dastko.devbookmarks.helpers.UserWrapper;
 import com.dastko.devbookmarks.service.TagService;
 import com.dastko.devbookmarks.helpers.LinkWrapper;
 import com.dastko.devbookmarks.entity.Link;
@@ -13,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.*;
@@ -48,8 +52,8 @@ public class LinkController
     }
 
 
-    @RequestMapping(value = "saveLink", method = RequestMethod.POST)
-    public ResponseEntity<Set<String>> saveLink(@ModelAttribute LinkWrapper link, Principal principal, BindingResult bindingResult)
+    @RequestMapping(value = "api/saveLink", method = RequestMethod.POST)
+    public ResponseEntity<Set<String>> saveLink(@RequestBody LinkWrapper link, Principal principal, BindingResult bindingResult)
     {
         return new ResponseEntity<>(linkService.createLink(link, principal), HttpStatus.OK);
     }
@@ -77,9 +81,22 @@ public class LinkController
         return new ResponseEntity<>(ResponseMessage.success("Post Deleted"), HttpStatus.NO_CONTENT);
     }
 
-//    @RequestMapping(value = "/test", method = RequestMethod.DELETE)
-//    public ResponseEntity<ResponseMessage> saving(@ModelAttribute BookElasticsearch bookElasticsearch)
-//    {
-//        linkService.save()
-//    }
+    @RequestMapping(value="api/user")
+    public UserWrapper user(Principal user) {
+        final UserWrapper userWrapper = new UserWrapper(user.getName(), "");
+        return userWrapper;
+    }
+
+    @RequestMapping(value="/api/tags/{input}", method = RequestMethod.GET)
+    public ResponseEntity<Set<String>> getTagListByUserInput(@PathVariable String input)
+    {
+        return new ResponseEntity<>(tagService.fetchByInputString(input), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/api/user/links", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<LinkWrapper>> getLinksByUser(Principal principal)
+    {
+
+        return new ResponseEntity<>(linkService.getAllLinksByUserId(2L), HttpStatus.OK);
+    }
 }

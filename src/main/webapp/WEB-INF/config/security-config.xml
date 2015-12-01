@@ -15,6 +15,7 @@
            <intercept-url pattern="/suggestion" method="POST" access="permitAll" />
            <intercept-url pattern="/" access="hasRole('ROLE_USER')" />
            <intercept-url pattern="/app/**" access="hasRole('ROLE_USER')" />
+           <intercept-url pattern="/link" access="hasRole('ROLE_USER')" />
            <intercept-url pattern="/deleteLink" access="hasRole('ROLE_USER')" />
            <intercept-url pattern="/saveLink" access="hasRole('ROLE_USER')" />
              <form-login
@@ -23,9 +24,9 @@
                    authentication-failure-url="/login?error"
                    username-parameter="name"
                    password-parameter="password" />
-           <logout logout-success-url="/login?logout" />
+           <logout logout-url="/api/logout" logout-success-url="/#/login"/>
            <!-- enable csrf protection -->
-           <csrf/>
+           <csrf token-repository-ref="csrfTokenRepository"/>
        </http>
        <authentication-manager>
               <!--<authentication-provider>-->
@@ -37,6 +38,10 @@
                </user-service>
            </authentication-provider>
        </authentication-manager>
+
+    <beans:bean id="csrfTokenRepository" class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
+        <beans:property name="headerName" value="X-XSRF-TOKEN" />
+    </beans:bean>
 
 
     <beans:bean id="dataSource"

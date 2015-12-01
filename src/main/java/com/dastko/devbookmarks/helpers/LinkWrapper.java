@@ -1,8 +1,12 @@
 package com.dastko.devbookmarks.helpers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dastko
@@ -16,9 +20,8 @@ public class LinkWrapper implements Serializable
     @Size(max = 200)
     @NotNull
     private String details;
-    @Size(max = 300)
-    @NotNull
-    private String tags;
+    @JsonProperty("tags")
+    private List<Tag> tags = new ArrayList<>();
 
     public String getName()
     {
@@ -40,13 +43,54 @@ public class LinkWrapper implements Serializable
         this.details = details;
     }
 
-    public String getTags()
+    public List<Tag> getTags()
     {
         return tags;
     }
 
-    public void setTags(String tags)
+    public void setTags(List<Tag> tags)
     {
         this.tags = tags;
     }
+
+    // Must be static
+    public static class Tag
+    {
+        private String text;
+
+        public Tag()
+        {
+        }
+
+        public String getText()
+        {
+            return text;
+        }
+
+        public void setText(String text)
+        {
+            this.text = text;
+        }
+    }
+
+    public static class Tag2
+    {
+        private String name;
+
+        public Tag2()
+        {
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+    }
+
+
 }

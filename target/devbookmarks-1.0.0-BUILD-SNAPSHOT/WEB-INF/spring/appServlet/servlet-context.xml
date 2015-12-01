@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:p="http://www.springframework.org/schema/p"
              xmlns:tx="http://www.springframework.org/schema/tx"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:mvc="http://www.springframework.org/schema/mvc"
@@ -59,6 +60,11 @@
     <beans:property name="password" value="root" />
     </beans:bean>
 
+    <beans:bean id="jedisFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+                p:usePool="true"/>
+
+    <beans:bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+          p:connectionFactory-ref="jedisFactory"/>
 
     <!-- Hibernate SessionFactory -->
     <!--<beans:bean id="sessionFactory"-->

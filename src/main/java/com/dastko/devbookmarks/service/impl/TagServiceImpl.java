@@ -3,15 +3,15 @@ package com.dastko.devbookmarks.service.impl;
 import com.dastko.devbookmarks.dao.GenericDAO;
 import com.dastko.devbookmarks.entity.Link;
 import com.dastko.devbookmarks.entity.Tag;
+import com.dastko.devbookmarks.helpers.LinkWrapper;
 import com.dastko.devbookmarks.service.TagService;
+import com.dastko.devbookmarks.utilites.DTOUtils;
 import com.dastko.devbookmarks.utilites.URLValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  * Created by dastko
@@ -37,5 +37,16 @@ public class TagServiceImpl implements TagService
             }
         }
         return Collections.unmodifiableSet(recommendedTags);
+    }
+
+    @Override
+    public Set<String> fetchByInputString(String input)
+    {
+        List <Tag> similarTags = genericDAO.fetchByInputString(Tag.class, input);
+        Set <String> strings = new HashSet<>();
+        for(Tag str: similarTags){
+            strings.add(str.getName());
+        }
+        return Collections.unmodifiableSet(strings);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface GenericDAO
 {
 
-    public <T> T createObject(T object, T secondObject);
+    public <T> T createObject(T object, T elasticObject);
 
     public <T> T updateObject(T object);
 
@@ -25,6 +25,6 @@ public interface GenericDAO
 
     public <T> List<T> fetchByInputString(Class<T> entityClass, String input);
 
-    public <T> T createTransaction(final T entity, final T elasticEntity);
+    public <T> List<T> getAllObjectByUserId(Class<T> entityClass, Long input);
 
 }
