@@ -1,8 +1,12 @@
 package com.dastko.devbookmarks.dao.impl;
 
 import com.dastko.devbookmarks.dao.GenericDAO;
+import com.dastko.devbookmarks.entity.Link;
+import com.dastko.devbookmarks.helpers.PaginationWrapper;
 import com.dastko.devbookmarks.utilites.HibernateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
@@ -77,6 +81,12 @@ public class GenericDAOImpl implements GenericDAO
     public <T> List<T> getAllObjectByUserId(Class<T> entityClass, Long input)
     {
         return hibernateUtil.findObjectsById(entityClass, input);
+    }
+
+    @Override
+    public PaginationWrapper pagination(int pageNumber)
+    {
+        return hibernateUtil.pagination(pageNumber);
     }
 
     @Override

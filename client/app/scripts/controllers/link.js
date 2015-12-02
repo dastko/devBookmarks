@@ -13,7 +13,6 @@
             console.log(authenticationService.isLoggedIn());
             $state.go("login");
           } else {
-            linkService.getAllLinks();
           }
         }
       },

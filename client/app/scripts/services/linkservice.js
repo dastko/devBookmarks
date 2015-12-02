@@ -10,8 +10,15 @@
     self.addFriend = addFriend;
     self.loadTags = loadTags;
     self.getAllLinks = getAllLinks;
+    self.loadNext = loadNext;
+    self.loadPrevious = loadPrevious;
+    self.hasNext = false;
+    self.hasPrevious = false;
+    self.page = 1;
     self.tags = [];
     self.links = [];
+    loadData();
+    return self;
 
     function addLink(newLink) {
       $http.post("/api/saveLink", newLink)
@@ -31,15 +38,38 @@
         });
     }
 
-
     function getAllLinks()
     {
-      $http.get("/api/user/links").then(function (response){
-        console.log(response.data);
-        self.links.push((response.data));
+      $http.get("/api/pagination/" + 1).then(function (response){
+        self.links.push((response.data.linkList));
       }, function (response) {
         console.log(response)
       })
+    }
+
+    function loadNext() {
+      self.page++;
+      loadData();
+    }
+
+    /**
+     * Load previous page of results and increase page by one
+     */
+    function loadPrevious() {
+      self.page--;
+      loadData();
+    }
+
+    function loadData()
+    {
+      $http.get("/api/pagination/" + self.page).then(function (response){
+         self.links = response.data.linkList;
+        self.hasNext = response.hasNext;
+        self.hasPrevious = response.hasPrevious;
+    }, function (response) {
+      console.log(response)
+    });
+
     }
 
     function loadTags(query)
@@ -50,6 +80,5 @@
         });
       return promise;
     }
-    return self;
   }]);
 })();

@@ -1,7 +1,9 @@
 package com.dastko.devbookmarks.controller;
 
-import com.dastko.devbookmarks.entity.User;
+import com.dastko.devbookmarks.entity.BookElasticsearch;
+import com.dastko.devbookmarks.helpers.PaginationWrapper;
 import com.dastko.devbookmarks.helpers.UserWrapper;
+import com.dastko.devbookmarks.service.ElasticsearchService;
 import com.dastko.devbookmarks.service.TagService;
 import com.dastko.devbookmarks.helpers.LinkWrapper;
 import com.dastko.devbookmarks.entity.Link;
@@ -11,17 +13,12 @@ import com.dastko.devbookmarks.utilites.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.*;
 
@@ -43,6 +40,10 @@ public class LinkController
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private ElasticsearchService elasticsearchDAO;
+
 
     @RequestMapping("createLink")
     public ModelAndView createLink(@ModelAttribute("link") LinkWrapper link)
@@ -98,4 +99,11 @@ public class LinkController
     {
         return new ResponseEntity<>(linkService.getAllLinksByUserId(2L), HttpStatus.OK);
     }
+
+    @RequestMapping(value="api/pagination/{number}", method = RequestMethod.GET)
+    public ResponseEntity<PaginationWrapper> links(@PathVariable int number)
+    {
+        return new ResponseEntity<>(linkService.pagination(number), HttpStatus.OK);
+    }
+
 }

@@ -3,6 +3,10 @@ package com.dastko.devbookmarks.service;
 import com.dastko.devbookmarks.entity.BookElasticsearch;
 import com.dastko.devbookmarks.helpers.LinkWrapper;
 import com.dastko.devbookmarks.entity.Link;
+import com.dastko.devbookmarks.helpers.PaginationWrapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.security.Principal;
 import java.util.List;
@@ -32,5 +36,8 @@ public interface LinkService
     public List<Link> fetchByInputString(String input);
 
     public List <LinkWrapper> getAllLinksByUserId(Long id);
+
+    public PaginationWrapper pagination(int pageNumber);
+
 
     }

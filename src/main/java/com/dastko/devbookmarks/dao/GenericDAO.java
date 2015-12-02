@@ -1,6 +1,12 @@
 package com.dastko.devbookmarks.dao;
 
 
+import com.dastko.devbookmarks.entity.Link;
+import com.dastko.devbookmarks.helpers.PaginationWrapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,4 +37,8 @@ public interface GenericDAO
     public <T> T fetchById(Serializable id, Class<T> entityClass);
 
     public <T> List<T> getAllObjectByUserId(Class<T> entityClass, Long input);
+
+    public PaginationWrapper pagination(int pageNumber);
+
+
 }

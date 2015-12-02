@@ -1,17 +1,21 @@
 package com.dastko.devbookmarks.service.impl;
 
 import com.dastko.devbookmarks.config.ElasticsearchConfiguration;
+import com.dastko.devbookmarks.dao.ElasticsearchDAO;
 import com.dastko.devbookmarks.dao.GenericDAO;
 import com.dastko.devbookmarks.entity.BookElasticsearch;
 import com.dastko.devbookmarks.helpers.LinkWrapper;
 import com.dastko.devbookmarks.entity.Link;
 import com.dastko.devbookmarks.entity.Tag;
 import com.dastko.devbookmarks.entity.User;
+import com.dastko.devbookmarks.helpers.PaginationWrapper;
 import com.dastko.devbookmarks.service.LinkService;
 import com.dastko.devbookmarks.utilites.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
@@ -27,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.annotation.Resources;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.security.Principal;
 import java.util.*;
 
@@ -76,6 +82,7 @@ public class LinkServiceImpl implements LinkService
         bookElasticsearch.setTags(tags);
         genericDAO.createObject(link, bookElasticsearch);
         List <Link> links = genericDAO.getAllObjects(Link.class);
+
         //StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         //String key = "KEYDAVOR1";
         //addList(links, key, 123456L);
@@ -158,4 +165,10 @@ public class LinkServiceImpl implements LinkService
         List <LinkWrapper> linkWrappers = DTOUtils.mapList(links, LinkWrapper.class);
         return Collections.unmodifiableList(linkWrappers);
     }
+
+    @Override
+    public PaginationWrapper pagination(int pageNumber){
+        return genericDAO.pagination(pageNumber);
+    }
+
 }

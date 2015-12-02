@@ -1,6 +1,7 @@
 package com.dastko.devbookmarks.utilites;
 
 import com.dastko.devbookmarks.entity.Link;
+import com.dastko.devbookmarks.helpers.PaginationWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
@@ -11,6 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 
@@ -109,5 +114,32 @@ public class HibernateUtil
         return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t " + "WHERE t.user.id= :id" + " ORDER BY t.date desc").setParameter("id", id).getResultList();
     }
 
+    public PaginationWrapper pagination(int pageNumber)
+    {
+        PaginationWrapper paginationWrapper = new PaginationWrapper();
+        int pageSize = 10;
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        countQuery.select(criteriaBuilder.count(countQuery.from(Link.class)));
+        Long count = entityManager.createQuery(countQuery).getSingleResult();
+        Link link = new Link();
+        link.setDetails(Long.toString(count));
+
+        CriteriaQuery<Link> criteriaQuery = criteriaBuilder.createQuery(Link.class);
+        Root<Link> from = criteriaQuery.from(Link.class);
+        CriteriaQuery<Link> select = criteriaQuery.select(from);
+        TypedQuery<Link> typedQuery = entityManager.createQuery(select);
+        if (pageNumber < count.intValue()) {
+            typedQuery.setFirstResult((pageNumber - 1) * pageSize);
+            typedQuery.setMaxResults(pageSize);
+            System.out.println("Current page: " + typedQuery.getResultList());
+            typedQuery.getResultList();
+            paginationWrapper.setLinkList(typedQuery.getResultList());
+            paginationWrapper.setCount(count);
+            return paginationWrapper;
+        }
+
+        return null;
+    }
 }

@@ -43,8 +43,8 @@
       </form>
     </div>
   </div>
-  <div class="col-lg-6">
-    <div class="bs-component" data-ng-repeat="link in lCtrl.linkService.links[0]">
+  <div class="col-lg-6" >
+    <div class="bs-component" data-ng-repeat="link in lCtrl.linkService.links">
       <ul class="list-group">
         <li class="list-group-item">
           <a  id="link" ng-href="{{link.name}}">{{link.details}}</a>
@@ -52,7 +52,16 @@
         </li>
       </ul>
     </div>
+    <tfoot>
+    <td colspan="6">
+      <button class="col-md-6 btn btn-info" ng-click="lCtrl.linkService.loadPrevious()">
+        Previous </button>
+      <button class="col-md-6 btn btn-info" ng-click="lCtrl.linkService.loadNext()">
+        Next </button>
+    </td>
+    </tfoot>
   </div>
+
   <div class="col-lg-6">
     <div class="well bs-component">
       <form class="form-horizontal" ng-submit="lCtrl.addFriend()">
