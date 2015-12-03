@@ -1,0 +1,20 @@
+<!-- Modal -->
+<div ng-controller="LinkController">
+  <div class="modal-header">
+    <h3>{{link.name}}</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Email Address:</label>
+
+        <div class="col-lg-10">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</div>

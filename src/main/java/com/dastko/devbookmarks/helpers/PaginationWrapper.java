@@ -1,19 +1,18 @@
 package com.dastko.devbookmarks.helpers;
 
-import com.dastko.devbookmarks.entity.Link;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by dastko on 12/2/15.
+ * Created by dastko
  */
-public class PaginationWrapper implements Serializable
+public class PaginationWrapper <T> implements Serializable
 {
     private long count;
-    private List<Link> linkList;
     private boolean hasPrevious;
     private boolean hasNext;
+    private List<T> linkList;
 
     public PaginationWrapper()
     {
@@ -29,12 +28,12 @@ public class PaginationWrapper implements Serializable
         this.count = count;
     }
 
-    public List<Link> getLinkList()
+    public List<T> getLinkList()
     {
         return linkList;
     }
 
-    public void setLinkList(List<Link> linkList)
+    public void setLinkList(List<T> linkList)
     {
         this.linkList = linkList;
     }

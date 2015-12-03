@@ -114,26 +114,25 @@ public class HibernateUtil
         return entityManager.createQuery("select t from " + entityClass.getSimpleName() + " t " + "WHERE t.user.id= :id" + " ORDER BY t.date desc").setParameter("id", id).getResultList();
     }
 
-    public PaginationWrapper pagination(int pageNumber)
+    public <T> PaginationWrapper pagination(Class<T> entityClass, int pageNumber)
     {
         PaginationWrapper paginationWrapper = new PaginationWrapper();
         int pageSize = 10;
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        countQuery.select(criteriaBuilder.count(countQuery.from(Link.class)));
+        countQuery.select(criteriaBuilder.count(countQuery.from(entityClass)));
         Long count = entityManager.createQuery(countQuery).getSingleResult();
-        Link link = new Link();
-        link.setDetails(Long.toString(count));
 
-        CriteriaQuery<Link> criteriaQuery = criteriaBuilder.createQuery(Link.class);
-        Root<Link> from = criteriaQuery.from(Link.class);
-        CriteriaQuery<Link> select = criteriaQuery.select(from);
-        TypedQuery<Link> typedQuery = entityManager.createQuery(select);
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+        Root<T> from = criteriaQuery.from(entityClass);
+        criteriaQuery.orderBy(criteriaBuilder.desc(from.get("date")));
+        CriteriaQuery<T> select = criteriaQuery.select(from);
+        TypedQuery<T> typedQuery = entityManager.createQuery(select);
+        // Sort
         if (pageNumber < count.intValue()) {
             typedQuery.setFirstResult((pageNumber - 1) * pageSize);
             typedQuery.setMaxResults(pageSize);
-            System.out.println("Current page: " + typedQuery.getResultList());
             typedQuery.getResultList();
             paginationWrapper.setLinkList(typedQuery.getResultList());
             paginationWrapper.setCount(count);

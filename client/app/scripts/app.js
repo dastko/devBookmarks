@@ -12,6 +12,7 @@
       "ui.router",
       "ngTagsInput",
       "angularSpinner",
+      'ui.bootstrap',
       'devBookmarksClientApp.link',
       'devBookmarksClientApp.login'
     ]);
@@ -24,7 +25,6 @@
 
         numLoadings++;
 
-        // Show loader
         $rootScope.$broadcast("loader_show");
         return config || $q.when(config)
 
@@ -32,7 +32,6 @@
       response: function (response) {
 
         if ((--numLoadings) === 0) {
-          // Hide loader
           $rootScope.$broadcast("loader_hide");
         }
 
@@ -42,7 +41,6 @@
       responseError: function (response) {
 
         if (!(--numLoadings)) {
-          // Hide loader
           $rootScope.$broadcast("loader_hide");
         }
 
@@ -51,8 +49,8 @@
     };
   });
 
-  app.directive("loader", function ($rootScope) {
-      return function ($scope, element, attrs) {
+  app.directive("loader", function () {
+      return function ($scope, element) {
         $scope.$on("loader_show", function () {
           return element.show();
         });

@@ -32,7 +32,7 @@ public class Link implements Serializable
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "link", cascade = CascadeType.ALL)
-    @JsonIgnore
+    //@JsonIgnore
     private Set<Tag> tags = new HashSet<>();
 
     public Link()

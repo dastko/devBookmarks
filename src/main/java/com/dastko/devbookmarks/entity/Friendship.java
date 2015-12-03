@@ -13,6 +13,7 @@ import java.util.Date;
 public class Friendship implements Serializable
 {
     @Id
+    private Long id;
     @ManyToOne
     private User friendRequester;
     @ManyToOne

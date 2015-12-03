@@ -84,9 +84,9 @@ public class GenericDAOImpl implements GenericDAO
     }
 
     @Override
-    public PaginationWrapper pagination(int pageNumber)
+    public <T> PaginationWrapper pagination(Class<T> entityClass, int pageNumber)
     {
-        return hibernateUtil.pagination(pageNumber);
+        return hibernateUtil.pagination(entityClass, pageNumber);
     }
 
     @Override

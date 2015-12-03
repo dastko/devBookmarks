@@ -38,9 +38,8 @@
         });
     }
 
-    function getAllLinks()
-    {
-      $http.get("/api/pagination/" + 1).then(function (response){
+    function getAllLinks() {
+      $http.get("/api/pagination/" + 1).then(function (response) {
         self.links.push((response.data.linkList));
       }, function (response) {
         console.log(response)
@@ -52,30 +51,26 @@
       loadData();
     }
 
-    /**
-     * Load previous page of results and increase page by one
-     */
+
     function loadPrevious() {
       self.page--;
       loadData();
     }
 
-    function loadData()
-    {
-      $http.get("/api/pagination/" + self.page).then(function (response){
-         self.links = response.data.linkList;
+    function loadData() {
+      $http.get("/api/pagination/" + self.page).then(function (response) {
+        console.log(response);
+        self.links = response.data.linkList;
         self.hasNext = response.hasNext;
         self.hasPrevious = response.hasPrevious;
-    }, function (response) {
-      console.log(response)
-    });
-
+      }, function (response) {
+        console.log(response)
+      });
     }
 
-    function loadTags(query)
-    {
+    function loadTags(query) {
       var promise = $http.get("/api/tags/" + query)
-        .then(function (response){
+        .then(function (response) {
           return response.data;
         });
       return promise;

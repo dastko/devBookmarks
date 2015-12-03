@@ -23,9 +23,10 @@
     });
   });
 
-  mod.controller("LinkController", function (linkService) {
+  mod.controller("LinkController", function ($scope, linkService, $uibModal) {
     var self = this;
     self.newLink = {name: "", details: "", tags: []};
+    self.open = open;
     self.newFriend = {requesterId: "", accepterId: ""};
     self.addLink = addLink;
     self.addFriend = addFriend;
@@ -41,5 +42,30 @@
       self.linkService.addFriend(self.newFriend);
       self.newFriend = {requesterId: "", accepterId: ""};
     }
+
+    function open(link) {
+      $uibModal.open({
+        templateUrl: 'views/modal.html',
+        controller: 'ModalController',
+        resolve: {
+          link: function () {
+            return self.linkService.links[link];
+          }
+        }
+      });
+    };
   });
-})();
+
+  mod.controller("ModalController", function ($scope, $uibModalInstance, link) {
+
+    $scope.link = link;
+
+    $scope.ok = function () {
+      $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
+    };
+  });
+  })();

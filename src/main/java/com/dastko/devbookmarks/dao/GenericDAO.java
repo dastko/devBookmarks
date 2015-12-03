@@ -38,7 +38,7 @@ public interface GenericDAO
 
     public <T> List<T> getAllObjectByUserId(Class<T> entityClass, Long input);
 
-    public PaginationWrapper pagination(int pageNumber);
+    public <T> PaginationWrapper pagination(Class<T> entityClass, int pageNumber);
 
 
 }

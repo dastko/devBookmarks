@@ -168,7 +168,7 @@ public class LinkServiceImpl implements LinkService
 
     @Override
     public PaginationWrapper pagination(int pageNumber){
-        return genericDAO.pagination(pageNumber);
+        return genericDAO.pagination(Link.class, pageNumber);
     }
 
 }

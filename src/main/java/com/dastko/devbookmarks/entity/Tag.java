@@ -1,5 +1,7 @@
 package com.dastko.devbookmarks.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,6 +18,7 @@ public class Tag implements Serializable
     private long id;
     private String name;
     @ManyToOne
+    @JsonIgnore
     private Link link;
 
     public Tag()
