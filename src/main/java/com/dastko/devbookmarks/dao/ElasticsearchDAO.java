@@ -15,5 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ElasticsearchDAO extends ElasticsearchRepository<BookElasticsearch, String>
 {
-    Page<BookElasticsearch> findByTagsName(String name, Pageable pageable);
+
+    Page<BookElasticsearch> findByTagsNamee(String name, Pageable pageable);
 }

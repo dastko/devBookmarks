@@ -100,6 +100,9 @@ public class LinkController
         return new ResponseEntity<>(linkService.getAllLinksByUserId(2L), HttpStatus.OK);
     }
 
+
+
+
     @RequestMapping(value="api/pagination/{number}", method = RequestMethod.GET)
     public ResponseEntity<PaginationWrapper> links(@PathVariable int number)
     {

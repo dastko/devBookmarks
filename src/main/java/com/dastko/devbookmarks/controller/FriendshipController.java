@@ -32,4 +32,11 @@ public class FriendshipController
     {
         return new ResponseEntity<>(friendshipService.getFriendRequests(id), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "api/getFriends/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Set<Friendship>> getFriendRequestsDuplicate(@PathVariable("id") long id)
+    {
+        return new ResponseEntity<>(friendshipService.getFriendRequests(id), HttpStatus.OK);
+    }
+
 }
