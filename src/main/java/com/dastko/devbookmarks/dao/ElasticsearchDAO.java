@@ -17,4 +17,7 @@ public interface ElasticsearchDAO extends ElasticsearchRepository<BookElasticsea
 {
 
     Page<BookElasticsearch> findByTagsNamee(String name, Pageable pageable);
+
+    Page<BookElasticsearch> findByTagsNameee(String name, Pageable pageable);
+
 }
